@@ -1,0 +1,17 @@
+.income{
+    background: linear-gradient(90deg, #B5DC52, #89E148);
+}
+
+.expense{
+    background: linear-gradient(90deg, #FF9595, #FF4747, #FF3838);
+}
+
+.btn{
+    color: var(--color-primary-text);
+    padding: 12px 30px;
+    border: none;
+    font-weight: 700;
+    font-size: 1rem;
+    border-radius: 15px;
+    cursor: pointer;
+}
