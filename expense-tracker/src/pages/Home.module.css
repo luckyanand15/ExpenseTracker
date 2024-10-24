@@ -1,6 +1,7 @@
 .container{
     color:var(--color-primary-text);
-    padding: 20px;
+    padding: 24px;
+    min-height: 100vh;
 }
 
 .topSectionWrapper{
@@ -8,8 +9,8 @@
     background-color: var(--color-secondary-bg);
     display: grid;
     grid-template-columns: repeat(3,1fr);
-    gap:30px;
-    padding: 45px;
+    gap:32px;
+    padding: 48px;
     border-radius: 10px;
     box-shadow: 0 4px 4px rgba(0,0,0,0.25);
 }
