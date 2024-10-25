@@ -9,17 +9,24 @@ const Home = () => {
   const [expense, setExpense] = useState(0);
   const [isBalanceOpen, setIsBalanceOpen] = useState(false);
   const [isExpenseOpen, setIsExpenseOpen] = useState(false)
+  const [isMounet, setIsMounted] = useState(false)
   
   useEffect(()=>{
     const bal = localStorage.getItem("balance");
     if(bal){
-      setBalance(bal);
+      setBalance(Number(bal));
     }else{
       setBalance(5000);
       localStorage.setItem("balance",5000);
     }
+    setIsMounted(true);
   },[])
 
+  useEffect(()=>{
+    if(isMounet){
+      localStorage.setItem("balance", balance)
+    }
+  },[balance])
   return (
     <div className={Styles.container}>
       <h1>Expense Tracker</h1>
@@ -41,7 +48,7 @@ const Home = () => {
         Chart
       </div>
       <Modal isOpen={isBalanceOpen} setIsOpen={setIsBalanceOpen}>
-        <BalanceForm/>
+        <BalanceForm setIsOpen={setIsBalanceOpen} setBalance={setBalance}/>
       </Modal>
       <Modal isOpen={isExpenseOpen} setIsOpen={setIsExpenseOpen}>
         Expense
