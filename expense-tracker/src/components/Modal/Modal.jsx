@@ -22,7 +22,7 @@ const ModalWrapper = ({ isOpen, setIsOpen, children }) => {
     }
   } 
   return (
-    <Modal isOpen={isOpen} onRequestClose={handleClose} style={customStyles}>
+    <Modal isOpen={isOpen} onRequestClose={handleClose} shouldCloseOnOverlayClick={true} style={customStyles}>
       {children}
     </Modal>
   );

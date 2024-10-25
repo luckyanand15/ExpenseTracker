@@ -8,12 +8,13 @@
 }
 
 .formWrapper form{
-    display: flex;
-    flex-wrap: wrap;
-    gap: 18px;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap:18px;
 }
 
-.formWrapper input{
+.formWrapper input,
+.formWrapper select{
     background-color: #FBFBFB;
     border: 0;
     outline: 0;
@@ -23,8 +24,8 @@
     border-radius: 15px;
     font-family: var(--font-body);
     padding:12px;
+    box-sizing: border-box;
 }
-
 .formWrapper input::placeholder{
     font-family: var(--font-heading);
 }

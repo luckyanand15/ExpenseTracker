@@ -8,11 +8,15 @@
 
 .success{
     background: #F4BB4A;
+    grid-column: span 2;
+    width: 100%;
 }
 
 .cancel{
     background: #E3E3E3;
     color:#000 !important;
+    width: fit-content;
+    font-weight: 400 !important;
 }
 
 .btn{
