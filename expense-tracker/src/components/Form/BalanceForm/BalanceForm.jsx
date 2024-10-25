@@ -19,6 +19,7 @@ const BalanceForm = ({ setIsOpen, setBalance }) => {
     }
     setBalance((prev) => prev + Number(income));
     setIsOpen(false);
+    enqueueSnackbar(`₹${income} added Successfully`, {variant:"success"});
   };
 
   useEffect(() => {
