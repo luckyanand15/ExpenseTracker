@@ -26,6 +26,13 @@ const ExpenseForm = ({ setIsOpen, expenseData ,setExpenseData, balance, setBalan
       setIsOpen(false);
       return;
     }
+    if (formData.price <= 0) {
+      enqueueSnackbar("Amount Should be greater than 0", {
+        variant: "warning",
+      });
+      setIsOpen(true);
+      return;
+    }
     setExpenseData([formData, ...expenseData]);
     setBalance((prev)=>prev-Number(formData.price));
     enqueueSnackbar(`Expense added Successfully`, {variant:"success"});
