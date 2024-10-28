@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import { IoIosArrowRoundBack, IoIosArrowRoundForward } from "react-icons/io";
 import Styles from "./Pagination.module.css";
 

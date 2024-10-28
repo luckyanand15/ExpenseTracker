@@ -35,3 +35,12 @@
 .paginationWrapper button[disabled]{
     opacity: 0.5;
 }
+
+@media(max-width:767px){
+    .paginationWrapper button,
+    .paginationWrapper p{
+        width: 42px;
+        height: 42px;
+        font-size: 1.4rem;
+    }
+}

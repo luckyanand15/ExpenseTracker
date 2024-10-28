@@ -28,3 +28,9 @@
 .formWrapper input::placeholder{
     font-family: var(--font-heading);
 }
+
+@media(max-width:767px){
+    .formWrapper form{
+        flex-direction: column;
+    }
+}

@@ -1,4 +1,4 @@
-import React, { Children } from "react";
+import React from "react";
 import Styles from "./Button.module.css";
 
 const Button = ({ children, buttonType = 'success', handleButton, shadow = false, type = "button"}) => {

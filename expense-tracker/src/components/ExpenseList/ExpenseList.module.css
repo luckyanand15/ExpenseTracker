@@ -10,3 +10,9 @@
     padding:24px;
     color: black;
 }
+
+@media(max-width:767px){
+    .expenseWrapper h2{
+        text-align: center;
+    }
+}

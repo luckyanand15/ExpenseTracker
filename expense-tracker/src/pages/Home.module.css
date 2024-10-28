@@ -21,3 +21,17 @@
     grid-template-columns: 2fr 1fr;
     gap:32px;
 }
+
+@media(max-width:767px){
+    .container h1{
+        text-align: center;
+    }
+    .topSectionWrapper{
+        padding: 16px;
+        grid-template-columns: 1fr;
+        gap:24px;
+    }
+    .bottomSectionWrapper{
+        grid-template-columns: 1fr;
+    }
+}
