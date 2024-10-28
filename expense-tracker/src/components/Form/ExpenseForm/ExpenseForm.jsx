@@ -49,35 +49,52 @@ const ExpenseForm = ({
     setIsOpen(false);
   };
 
- 
   const handleEdit = (e) => {
-      e.preventDefault();
-      if(Number(formData.price)<=0){
-        enqueueSnackbar("Price should be greater than 0", { variant: "warning" });
-        setIsOpen(true);
+    e.preventDefault();
+    if (Number(formData.price) <= 0) {
+      enqueueSnackbar("Price should be greater than 0", { variant: "warning" });
+      setIsOpen(true);
+      return { ...formData, id: editId };
+    }
+
+    const originalExpenseItem = expenseData.find((item) => item.id === editId);
+    let hasChanged = false;
+    if (
+      originalExpenseItem.title !== formData.title ||
+      originalExpenseItem.price !== formData.price ||
+      originalExpenseItem.category !== formData.category ||
+      originalExpenseItem.date !== formData.date
+    ) {
+      hasChanged = true;
+    }
+    if (!hasChanged) {
+      enqueueSnackbar("No changes made", { variant: "warning" });
+      setIsOpen(true);
+      return;
+    }
+    let priceExceedFlag = false;
+    const updatedExpenseItem = expenseData.map((item) => {
+      if (item.id === editId) {
+        const priceDiff = item.price - Number(formData.price);
+        if (priceDiff < 0 && Math.abs(priceDiff) > balance) {
+          enqueueSnackbar("Price should not exceed the wallet balance", {
+            variant: "warning",
+          });
+          priceExceedFlag = true;
+          return { ...item };
+        }
+        setBalance((prev) => prev + priceDiff);
         return { ...formData, id: editId };
       }
-      let priceDiff = 0;
-      const updatedExpenseItem = expenseData.map((item)=>{
-        if(item.id === editId){
-          priceDiff = item.price - Number(formData.price)
-          if(priceDiff < 0 && Math.abs(priceDiff)>balance){
-            enqueueSnackbar("Price should not exceed the wallet balance", { variant: "warning" });
-            priceDiff = 0;
-            return {...item};
-          }
-          setBalance((prev) => prev + priceDiff);
-          return { ...formData, id: editId };
-        }
-        return item;
-      })
-      setExpenseData(updatedExpenseItem);
-      if(priceDiff === 0){
-        setIsOpen(true);
-      }
-      else{
-        setIsOpen(false);
-      }
+      return item;
+    });
+    setExpenseData(updatedExpenseItem);
+    if(priceExceedFlag){
+      setIsOpen(true)
+    }
+    else{
+      setIsOpen(false);
+    }
   };
 
   useEffect(() => {
