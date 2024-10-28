@@ -1,11 +1,18 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Styles from "./ExpenseForm.module.css";
 import Button from "../../Button/Button";
 import { useSnackbar } from "notistack";
 
-const ExpenseForm = ({ setIsOpen, expenseData ,setExpenseData, balance, setBalance }) => {
-  const {enqueueSnackbar} = useSnackbar();
-  const [isRequired, setIsRequired] = useState(true)
+const ExpenseForm = ({
+  setIsOpen,
+  expenseData,
+  setExpenseData,
+  balance,
+  setBalance,
+  editId,
+}) => {
+  const { enqueueSnackbar } = useSnackbar();
+  const [isRequired, setIsRequired] = useState(true);
   const [formData, setFormData] = useState({
     title: "",
     price: "",
@@ -19,10 +26,12 @@ const ExpenseForm = ({ setIsOpen, expenseData ,setExpenseData, balance, setBalan
     setFormData({ ...formData, [name]: value });
   };
 
-  const handleSubmit = (e)=>{
+  const handleSubmit = (e) => {
     e.preventDefault();
-    if(balance<Number(formData.price)){
-      enqueueSnackbar(`Can not spend more than wallet balance`, {variant:"warning"});
+    if (balance < Number(formData.price)) {
+      enqueueSnackbar(`Can not spend more than wallet balance`, {
+        variant: "warning",
+      });
       setIsOpen(false);
       return;
     }
@@ -33,16 +42,60 @@ const ExpenseForm = ({ setIsOpen, expenseData ,setExpenseData, balance, setBalan
       setIsOpen(true);
       return;
     }
-    setExpenseData([formData, ...expenseData]);
-    setBalance((prev)=>prev-Number(formData.price));
-    enqueueSnackbar(`Expense added Successfully`, {variant:"success"});
+    setBalance((prev) => prev - Number(formData.price));
+    const latestId = expenseData.length > 0 ? expenseData[0].id : 0;
+    setExpenseData([{ ...formData, id: latestId + 1 }, ...expenseData]);
+    enqueueSnackbar(`Expense added Successfully`, { variant: "success" });
     setIsOpen(false);
-  }
-  
+  };
+
+ 
+  const handleEdit = (e) => {
+      e.preventDefault();
+      if(Number(formData.price)<=0){
+        enqueueSnackbar("Price should be greater than 0", { variant: "warning" });
+        setIsOpen(true);
+        return { ...formData, id: editId };
+      }
+      let priceDiff = 0;
+      const updatedExpenseItem = expenseData.map((item)=>{
+        if(item.id === editId){
+          priceDiff = item.price - Number(formData.price)
+          if(priceDiff < 0 && Math.abs(priceDiff)>balance){
+            enqueueSnackbar("Price should not exceed the wallet balance", { variant: "warning" });
+            priceDiff = 0;
+            return {...item};
+          }
+          setBalance((prev) => prev + priceDiff);
+          return { ...formData, id: editId };
+        }
+        return item;
+      })
+      setExpenseData(updatedExpenseItem);
+      if(priceDiff === 0){
+        setIsOpen(true);
+      }
+      else{
+        setIsOpen(false);
+      }
+  };
+
+  useEffect(() => {
+    if (editId) {
+      const expenseItem = expenseData.find((item) => item.id === editId);
+      setFormData({
+        title: expenseItem.title,
+        price: expenseItem.price,
+        category: expenseItem.category,
+        date: expenseItem.date,
+      });
+    }
+  }, [editId]);
+
   return (
     <div className={Styles.formWrapper}>
-      <h3>Add Expenses</h3>
-      <form onSubmit={handleSubmit}>
+      <h3>{editId ? `Edit Expenses` : `Add Expenses`}</h3>
+      <form onSubmit={editId ? handleEdit : handleSubmit}>
         <input
           type="text"
           name="title"
@@ -80,7 +133,7 @@ const ExpenseForm = ({ setIsOpen, expenseData ,setExpenseData, balance, setBalan
           required={isRequired}
         />
         <Button type="submit" buttonType={"success"} shadow>
-          Add Expense
+          {editId ? "Edit Expense" : "Add Expense"}
         </Button>
         <Button
           buttonType={"cancel"}

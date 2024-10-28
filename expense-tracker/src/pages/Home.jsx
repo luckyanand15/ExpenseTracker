@@ -5,6 +5,7 @@ import Modal from "../components/Modal/Modal";
 import BalanceForm from "../components/Form/BalanceForm/BalanceForm";
 import ExpenseForm from "../components/Form/ExpenseForm/ExpenseForm";
 import PieChart from "../components/PieChart/PieChart";
+import ExpenseList from "../components/ExpenseList/ExpenseList";
 
 const Home = () => {
   const [balance, setBalance] = useState(0);
@@ -97,6 +98,17 @@ const Home = () => {
           ]}
         />
       </div>
+
+      <div className={Styles.bottomSectionWrapper}>
+        <ExpenseList
+          expenseData={expenseData}
+          setExpenseData={setExpenseData}
+          balance={balance}
+          setBalance={setBalance}
+        />
+        <h5>Bar Graph</h5>
+      </div>
+
       <Modal isOpen={isBalanceOpen} setIsOpen={setIsBalanceOpen}>
         <BalanceForm setIsOpen={setIsBalanceOpen} setBalance={setBalance} />
       </Modal>
