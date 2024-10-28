@@ -6,6 +6,7 @@ import BalanceForm from "../components/Form/BalanceForm/BalanceForm";
 import ExpenseForm from "../components/Form/ExpenseForm/ExpenseForm";
 import PieChart from "../components/PieChart/PieChart";
 import ExpenseList from "../components/ExpenseList/ExpenseList";
+import BarGraph from "../components/BarGraph/BarGraph";
 
 const Home = () => {
   const [balance, setBalance] = useState(0);
@@ -106,7 +107,13 @@ const Home = () => {
           balance={balance}
           setBalance={setBalance}
         />
-        <h5>Bar Graph</h5>
+         <BarGraph
+          data={[
+            { name: "Food", value: category.food },
+            { name: "Entertainment", value: category.entertainment },
+            { name: "Travel", value: category.travel },
+          ]}
+        />
       </div>
 
       <Modal isOpen={isBalanceOpen} setIsOpen={setIsBalanceOpen}>
